@@ -1,15 +1,14 @@
 <template>
    
   <header>
-    <div class="bg-purple-darken-2 text-center">
-    <span>Lorem ipsum</span>
-  </div>
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>My Website</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text to="/" class="text-dark">Home</v-btn>
-      <v-btn text to="/about" class="text-dark">About</v-btn>
+      <v-btn text :to="{name:'AdminHome'}" class="text-dark">Dashboard</v-btn>
+      <v-btn text :to="{name:'AdminProducts'}"  class="text-dark">Products</v-btn>
+      <v-btn text :to="{name:'Adminprojects'}"  class="text-dark">Projects</v-btn>
+
       <v-btn text to="/contact" class="text-dark">Contact</v-btn>
     </v-app-bar>
 

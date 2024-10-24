@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <v-main>
-      <router-view />
+      <layout />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts" setup>
-  //
+  import layout from './pages/admin/layouts/default.vue';
 </script>

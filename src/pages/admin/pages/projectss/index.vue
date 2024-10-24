@@ -3,19 +3,19 @@
         <v-data-table :headers="headers" :items="items" :search="search" :loading="loading">
             <template v-slot:top>
                 <v-toolbar flat>
-                    <v-toolbar-title>Products</v-toolbar-title>
+                    <v-toolbar-title>Projects</v-toolbar-title>
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
                     <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
                         hide-details></v-text-field>
-                    <v-btn color="primary" :to="{ name: 'AdminProductCreate' }">Create Product</v-btn>
+                    <v-btn color="primary" :to="{ name: 'AdminprojectsCreate' }">Create project</v-btn>
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-btn icon @click="editProduct(item)">
+                <v-btn icon @click="editProject(item)">
                     <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn icon @click="deleteProduct(item)">
+                <v-btn icon @click="deleteProject(item)">
                     <v-icon>mdi-delete</v-icon>
                 </v-btn>
             </template>
@@ -41,9 +41,9 @@ const items = ref([]);
 
 const search = ref('');
 
-const getProduct = () => {
+const getProject = () => {
     loading.value = true;
-    axiosInstance.get('products')
+    axiosInstance.get('projects')
         .then(response => {
             loading.value = false;
             items.value = response.data.data;
@@ -53,17 +53,17 @@ const getProduct = () => {
             console.log(error);
         });
 }
-const editProduct = (item) => {
-    // Navigate to the edit page with the product ID
-    // Assuming you have a route named 'AdminProductEdit' that takes an 'id' parameter
-    router.push({ name: 'AdminProductEdit', params: { id: item.id } });
+const editProject = (item) => {
+    // Navigate to the edit page with the project ID
+    // Assuming you have a route named 'AdminprojectEdit' that takes an 'id' parameter
+    router.push({ name: 'AdminprojectEdit', params: { id: item.id } });
 };
 
-const deleteProduct = (item) => {
+const deleteProject = (item) => {
     if (confirm(`Are you sure you want to delete ${item.name}?`)) {
-        axiosInstance.delete(`products/${item.id}`)
+        axiosInstance.delete(`projects/${item.id}`)
             .then(() => {
-                getProduct(); // Refresh the product list
+                getProject(); // Refresh the project list
             })
             .catch(error => {
                 console.log(error);
@@ -71,5 +71,5 @@ const deleteProduct = (item) => {
     }
 };
 
-onMounted(getProduct);
+onMounted(getProject);
 </script>

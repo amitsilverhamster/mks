@@ -20,7 +20,27 @@ const routes: RouteRecordRaw[] = [
     path: '/admin/products/create',
     name: 'AdminProductCreate',
     component: () => import('../pages/admin/pages/product/create/index.vue'),
-  }
+  },
+  {
+    path: '/admin/products/edit/:id',
+    name: 'AdminProductEdit',
+    component: () => import('../pages/admin/pages/product/edit/index.vue'),
+  },
+  {
+    path: '/admin/projects',
+    name: 'Adminprojects',
+    component: () => import('../pages/admin/pages/projectss/index.vue'),
+  },
+  {
+    path: '/admin/projects/create',
+    name: 'AdminprojectsCreate',
+    component: () => import('../pages/admin/pages/projectss/create/index.vue'),
+  },
+  {
+    path: '/admin/projects/edit/:id',
+    name: 'AdminprojectEdit',
+    component: () => import('../pages/admin/pages/projectss/edit/index.vue'),
+  },
 ]
 
 const router = createRouter({

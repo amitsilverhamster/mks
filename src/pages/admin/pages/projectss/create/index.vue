@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Create Product</h1>
+    <h1>Edit Project</h1>
     <v-form ref="formRef" @submit.prevent="submitForm">
       <v-text-field v-model="form.name" label="Name" :rules="nameRules" required></v-text-field>
 
@@ -19,7 +19,7 @@
           <v-img :src="image" aspect-ratio="1" class="mb-4"></v-img>
         </v-col>
       </v-row>
-      <v-btn :to="{ name: 'AdminProducts' }" color="secondry" class="mr-2">Back</v-btn>
+      <v-btn :to="{ name: 'Adminprojects' }" color="secondry" class="mr-2">Back</v-btn>
       <v-btn type="submit" color="primary">Submit</v-btn>
     </v-form>
   </v-container>
@@ -86,7 +86,7 @@ const submitForm = () => {
       formData.append(`images`, image);
     });
 
-    axiosInstance.post('/products', formData, {
+    axiosInstance.post('/projects', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

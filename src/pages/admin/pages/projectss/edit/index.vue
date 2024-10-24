@@ -1,7 +1,8 @@
 <template>
   <v-container>
-    <h1>Create Product</h1>
-    <v-form ref="formRef" @submit.prevent="submitForm">
+    <h1>Edit Project</h1>
+
+    <v-form @submit.prevent="submitForm">
       <v-text-field v-model="form.name" label="Name" :rules="nameRules" required></v-text-field>
 
       <v-text-field v-model="form.slug" label="Slug" :rules="slugRules" required></v-text-field>
@@ -12,15 +13,20 @@
       <v-textarea v-model="form.description" label="Long Description" :rules="longDescriptionRules"
         required></v-textarea>
 
-      <v-file-input v-model="form.images" label="Images" :rules="imagesRules" multiple required
-        @change="previewImages" @click:clear="previewImages"></v-file-input>
+      <v-file-input v-model="form.images" label="Images" :rules="imagesRules" multiple required @change="previewImages"
+        @click:clear="previewImages"></v-file-input>
       <v-row class="py-5">
         <v-col v-for="(image, index) in imagePreviews" :key="index" cols="12" sm="6" md="4">
           <v-img :src="image" aspect-ratio="1" class="mb-4"></v-img>
         </v-col>
       </v-row>
-      <v-btn :to="{ name: 'AdminProducts' }" color="secondry" class="mr-2">Back</v-btn>
-      <v-btn type="submit" color="primary">Submit</v-btn>
+      <v-row class="py-5">
+        <v-col v-for="(image, index) in uploadedImages" :key="index" cols="12" sm="6" md="4">
+          <v-img :src="getImageUrl(image)" aspect-ratio="1" class="mb-4"></v-img>
+        </v-col>
+      </v-row>
+      <v-btn :to="{ name: 'Adminprojects' }" color="secondry" class="mr-2 my-5">Back</v-btn>
+      <v-btn type="submit" color="primary my-5">Update</v-btn>
     </v-form>
   </v-container>
 </template>
@@ -28,7 +34,10 @@
 <script lang="ts" setup>
 import axiosInstance from '@plugins/axios';
 import { ref } from 'vue';
-const formRef = ref(null);
+
+const route = useRoute();
+const imagePreviews = ref<string[]>([]);
+const uploadedImages = ref<string[]>([]);
 const form = ref({
   name: '',
   slug: '',
@@ -36,7 +45,6 @@ const form = ref({
   description: '',
   images: [],
 });
-const imagePreviews = ref<string[]>([]);
 
 const nameRules = [
   (v: string) => !!v || 'Name is required',
@@ -60,19 +68,9 @@ const longDescriptionRules = [
 const imagesRules = [
   (v: File[]) => v.length > 0 || 'At least one image is required',
 ];
-const previewImages = () => {
-  imagePreviews.value = [];
-  if (form.value.images) {
-    Array.from(form.value.images).forEach((file: File) => {
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        if (e.target?.result) {
-          imagePreviews.value.push(e.target.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  }
+const getImageUrl = (image: string) => {
+  const baseUrl = 'http://localhost:3001/uploads/';
+  return `${baseUrl}${image}`;
 };
 
 const submitForm = () => {
@@ -86,13 +84,12 @@ const submitForm = () => {
       formData.append(`images`, image);
     });
 
-    axiosInstance.post('/products', formData, {
+    axiosInstance.post('/projects', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     }).then(response => {
       console.log('Form submitted successfully:', response.data);
-      resetForm();
     }).catch(error => {
       console.error('Error submitting form:', error);
     });
@@ -102,15 +99,43 @@ const submitForm = () => {
   }
 };
 
+const previewImages = () => {
+  imagePreviews.value = [];
+  uploadedImages.value = [];
 
-const resetForm = () => {
-  form.value = {
-    name: '',
-    slug: '',
-    short_description: '',
-    description: '',
-    images: [],
-  };
-  formRef.value.resetValidation();
+  if (form.value.images) {
+    Array.from(form.value.images).forEach((file: File) => {
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target?.result) {
+          imagePreviews.value.push(e.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+     // Clear uploadedImages if imagePreviews is not empty
+  if (imagePreviews.value.length > 0) {
+    uploadedImages.value = [];
+  }
+  }
 };
+
+const getProductByID = (id: string) => {
+  axiosInstance.get(`projects/edit/${id}`)
+    .then(response => {
+      form.value.description = response.data.data.description;
+      form.value.name = response.data.data.name;
+      form.value.short_description = response.data.data.short_description;
+      form.value.slug = response.data.data.slug;
+      uploadedImages.value = response.data.data.images;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+onMounted(() => {
+  const id = route.params.id;
+  getProductByID(id);
+});
 </script>
