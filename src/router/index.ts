@@ -41,6 +41,21 @@ const routes: RouteRecordRaw[] = [
     name: 'AdminprojectEdit',
     component: () => import('../pages/admin/pages/projectss/edit/index.vue'),
   },
+  {
+    path: '/admin/banners',
+    name: 'AdminBanners',
+    component: () => import('../pages/admin/pages/banner/index.vue'),
+  },
+  {
+    path: '/admin/banner/create',
+    name: 'AdminBannerCreate',
+    component: () => import('../pages/admin/pages/banner/create/index.vue'),
+  },
+  {
+    path: '/admin/banners/edit/:id',
+    name: 'AdminBannerEdit',
+    component: () => import('../pages/admin/pages/banner/edit/index.vue'),
+  },
 ]
 
 const router = createRouter({

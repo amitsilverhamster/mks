@@ -36,6 +36,8 @@ import axiosInstance from '@plugins/axios';
 import { ref } from 'vue';
 
 const route = useRoute();
+const id = ref(route.params?.id || "");
+
 const imagePreviews = ref<string[]>([]);
 const uploadedImages = ref<string[]>([]);
 const form = ref({
@@ -84,7 +86,7 @@ const submitForm = () => {
       formData.append(`images`, image);
     });
 
-    axiosInstance.post('/projects', formData, {
+    axiosInstance.patch(`/projects/${id.value}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -120,8 +122,8 @@ const previewImages = () => {
   }
 };
 
-const getProductByID = (id: string) => {
-  axiosInstance.get(`projects/edit/${id}`)
+const getProductByID = () => {
+  axiosInstance.get(`projects/edit/${id.value}`)
     .then(response => {
       form.value.description = response.data.data.description;
       form.value.name = response.data.data.name;
@@ -135,7 +137,6 @@ const getProductByID = (id: string) => {
 }
 
 onMounted(() => {
-  const id = route.params.id;
-  getProductByID(id);
+  getProductByID();
 });
 </script>

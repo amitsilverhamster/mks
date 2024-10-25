@@ -8,7 +8,7 @@
       <v-btn text :to="{name:'AdminHome'}" class="text-dark">Dashboard</v-btn>
       <v-btn text :to="{name:'AdminProducts'}"  class="text-dark">Products</v-btn>
       <v-btn text :to="{name:'Adminprojects'}"  class="text-dark">Projects</v-btn>
-
+      <v-btn text :to="{name:'AdminBanners'}"  class="text-dark">Banners</v-btn>
       <v-btn text to="/contact" class="text-dark">Contact</v-btn>
     </v-app-bar>
 
