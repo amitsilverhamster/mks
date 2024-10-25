@@ -12,6 +12,21 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/admin/pages/index.vue'),
   },
   {
+    path: '/admin/menus',
+    name: 'AdminMenus',
+    component: () => import('../pages/admin/pages/menu/index.vue'),
+  },
+  {
+    path: '/admin/menus/create',
+    name: 'AdminMenuCreate',
+    component: () => import('../pages/admin/pages/menu/create/index.vue'),
+  },
+  {
+    path: '/admin/menus/edit/:id',
+    name: 'AdminMenuEdit',
+    component: () => import('../pages/admin/pages/menu/edit/index.vue'),
+  },
+  {
     path: '/admin/products',
     name: 'AdminProducts',
     component: () => import('../pages/admin/pages/product/index.vue'),

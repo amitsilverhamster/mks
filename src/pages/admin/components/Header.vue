@@ -6,6 +6,7 @@
       <v-toolbar-title>My Website</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn text :to="{name:'AdminHome'}" class="text-dark">Dashboard</v-btn>
+      <v-btn text :to="{name:'AdminMenus'}"  class="text-dark">Menus</v-btn>
       <v-btn text :to="{name:'AdminProducts'}"  class="text-dark">Products</v-btn>
       <v-btn text :to="{name:'Adminprojects'}"  class="text-dark">Projects</v-btn>
       <v-btn text :to="{name:'AdminBanners'}"  class="text-dark">Banners</v-btn>
