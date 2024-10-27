@@ -47,7 +47,7 @@
                         <div class="map-container px-2 embed-responsive embed-responsive-16by9">
                             <iframe class="embed-responsive"
                                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d66064.20320075586!2d76.994778!3d29.256479000000002!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390dc5ae6031269d%3A0xc93a6399f41e1b3e!2sMKS%20INDUSTRIAL%20SOLUTIONS!5e1!3m2!1sen!2sin!4v1730015803147!5m2!1sen!2sin"
-                                width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+                                width="600" height="200" style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         </div>

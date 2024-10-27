@@ -3,100 +3,121 @@
     <section class="py-5">
       <div class="container">
         <div class="row">
-          <div class="col-6 col-md-2 col-lg-2">
-            <h4 class="pb-2 text-start">About US</h4>
-            <p class="text-dark text-start">We are an EPC-based
-              organization that provides
-              engineering services from
-              feasibility studies to designing
-              the world's most advanced
-              industrial engineering</p>
-          </div>
-          <div class="col-6 col-md-2 col-lg-2">
-            <h4 class="text-dark pb-2 text-start">Quick Links</h4>
-            <ul class="text-dark list-unstyled text-start">
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Home</span>
-              </li>
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>About
-                  us</span></li>
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Products</span>
-              </li>
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Projects</span>
+          <div v-for="section in footerSections" :key="section.title" class="col-6 col-md-2 col-lg-2">
+            <h4 class="pb-2 text-start">{{ section.title }}</h4>
+            <ul v-if="section.items" class="text-dark list-unstyled text-start">
+              <li v-for="item in section.items" :key="item" class="py-1">
+                <template v-if="section.title !== 'About US'">
+                  <i class="fa-solid fa-greater-than text-light bg-dark rounded-circle me-2 greater-icon"></i>
+                </template>
+                <span>{{ item }}</span>
               </li>
             </ul>
-          </div>
-          <div class="col-6 col-md-2 col-lg-2">
-            <h4 class=" pb-2 text-start">Products</h4>
-            <ul class="text-dark list-unstyled text-start">
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Dryers</span>
-              </li>
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Evaporators</span>
-              </li>
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Heat
-                  Exchanger</span></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md-2 col-lg-2">
-            <h4 class=" pb-2 text-start">Projects</h4>
-            <ul class="text-dark list-unstyled text-start">
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>ZLD
-                  Plant</span></li>
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Strach
-                  Plant</span></li>
-              <li class="py-1"><i
-                  class="fa-solid fa-greater-than  text-light bg-dark rounded-circle  me-2 greater-icon "></i><span>Fructose
-                  Plant</span></li>
-            </ul>
-          </div>
-          <div class="col-12 col-md-3 col-lg-3">
-            <h4 class=" pb-2 text-start">Contact Us</h4>
-            <ul class="list-unstyled text-dark text-start">
-
-              <li class="d-flex align-items-center py-2"><i class="fas fa-phone-alt me-3"></i> <span>
-                  +91 93501-40037</span></li>
-              <li class="d-flex align-items-center py-2"><i class="fas fa-envelope me-3"></i>
-                <span> Sales@mksindustrialsolutions.com</span>
-              </li>
-              <li class="d-flex align-items-center py-2"><i class="fas fa-map-marker-alt me-3"></i>
-                <span>
-                  Manana Road Samalkha, Panipat, Haryana,
-                  India, 132103</span>
+            <ul v-if="section.contacts" class="list-unstyled text-dark text-start">
+              <li v-for="contact in section.contacts" :key="contact.text" class="d-flex align-items-center py-2">
+                <i :class="contact.icon + ' me-3'"></i>
+                <span>{{ contact.text }}</span>
               </li>
             </ul>
-            <div class="social-media-icons">
-              <a href="https://www.facebook.com" class="px-3 my-2 rounded" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="https://www.twitter.com" class="px-3 my-2  rounded" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="https://www.instagram.com" class="px-3 my-2  rounded" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-instagram"></i>
-              </a>
-              <a href="https://www.linkedin.com" class="px-3 my-2  rounded" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-linkedin-in"></i>
+            <div v-if="section.socialMedia" class="social-media-icons">
+              <a v-for="social in section.socialMedia" :key="social.platform" :href="social.link"
+                class="px-3 my-2 rounded" target="_blank" rel="noopener noreferrer">
+                <i :class="social.icon"></i>
               </a>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   </footer>
-
 </template>
 
 <script lang="ts" setup>
-//
+import { ref, onMounted, computed } from 'vue';
+import axiosInstance from '@plugins/axios';
+
+const navItems = ref<string[]>([]);
+const projectsItems = ref<string[]>([]);
+const productsItems = ref<string[]>([]);
+
+const fetchMenuItems = async () => {
+  try {
+    const response = await axiosInstance.get('/menus');
+    navItems.value = response.data.map(item => item.name); // Assuming each item has a 'name' property
+  } catch (error) {
+    console.error('Error fetching menu items:', error);
+  }
+};
+
+const fetchProjectItems = async () => {
+  try {
+    const response = await axiosInstance.get('/projects/get-projects');
+    console.log('Projects response data:', response.data); // Log the response data
+    if (response.data && Array.isArray(response.data.data)) {
+      projectsItems.value = response.data.data.map(project => project.name);
+    } else {
+      projectsItems.value = [];
+    }
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+  }
+};
+
+const fetchProductsItems = async () => {
+  try {
+    const response = await axiosInstance.get('/products/getProducts');
+    console.log('products response data:', response.data); // Log the response data
+    if (response.data && Array.isArray(response.data.data)) {
+      productsItems.value = response.data.data.map(products => products.name);
+    } else {
+      productsItems.value = [];
+    }
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+  }
+};
+
+
+onMounted(() => {
+  fetchMenuItems();
+  fetchProjectItems();
+  fetchProductsItems();
+});
+
+const footerSections = computed(() => [
+  {
+    title: 'About US',
+    items: [
+      'We are an EPC-based organization that provides engineering services from feasibility studies to designing the world\'s most advanced industrial engineering'
+    ]
+  },
+  {
+    title: 'Quick Links',
+    items: navItems.value
+  },
+  {
+    title: 'Products',
+    items: productsItems.value
+  },
+  {
+    title: 'Projects',
+    items: projectsItems.value
+  },
+  {
+    title: 'Contact Us',
+    contacts: [
+      { icon: 'fas fa-phone-alt', text: '+91 93501-40037' },
+      { icon: 'fas fa-envelope', text: 'Sales@mksindustrialsolutions.com' },
+      { icon: 'fas fa-map-marker-alt', text: 'Manana Road Samalkha, Panipat, Haryana, India, 132103' }
+    ],
+    socialMedia: [
+      { platform: 'Facebook', link: 'https://www.facebook.com', icon: 'fab fa-facebook-f' },
+      { platform: 'Twitter', link: 'https://www.twitter.com', icon: 'fab fa-twitter' },
+      { platform: 'Instagram', link: 'https://www.instagram.com', icon: 'fab fa-instagram' },
+      { platform: 'LinkedIn', link: 'https://www.linkedin.com', icon: 'fab fa-linkedin-in' }
+    ]
+  }
+]);
 </script>
 
 <style scoped>
@@ -108,6 +129,7 @@
 h4 {
   color: #1B326A;
 }
+
 .social-media-icons a {
   border: 1px solid #0073e6;
   background-color: #0073e6;
@@ -121,7 +143,6 @@ h4 {
 }
 
 .greater-icon {
-
   padding: 5px;
   font-size: 10px;
 }

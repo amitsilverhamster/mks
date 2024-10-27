@@ -5,12 +5,14 @@
                 <h2 class="fs-1">Our Projects</h2>
             </div>
             <div class="row">
-                <div v-for="(project, index) in projects" :key="index" class="col-12 col-md-4 col-lg-4 text-light">
+                <div v-for="(project, index) in projects.data" :key="index" class="col-12 col-md-4 col-lg-4 text-light">
                     <div>
-                        <img :src="project.image" class="img-fluid" :alt="project.title">
+                        <a :href="`/products/${project.slug}`">
+                            <img :src="`${baseUrl}${project.default_image}`" class="img-fluid" :alt="project.name || 'Project Image'">
+                        </a>
                     </div>
                     <div class="pt-4 ps-5">
-                        <h4 class="fw-bold">{{ project.title }}</h4>
+                        <h4 class="fw-bold">{{ project.name }}</h4>
                         <p>{{ project.description }}</p>
                     </div>
                 </div>
@@ -23,23 +25,21 @@
 </template>
 
 <script setup>
-const projects = [
-    {
-        title: 'ZLD Plant',
-        description: 'The Ring Dryer is a special development of the Flash Dryer Incorporating an internal airborne recycle For greatly improved operation',
-        image: 'src/assets/Blue Modern A sweet Ending To A New Beginning Wedding Tag (4).png'
-    },
-    {
-        title: 'Fructose Plant',
-        description: 'MKS Industrial Solutions is a leading Rice-based and Maize Based fructose Plant manufacturer in India ( F42, F55, F90, Fructose)',
-        image: 'src/assets/Blue Modern A sweet Ending To A New Beginning Wedding Tag (5)_1.png'
-    },
-    {
-        title: 'Starch Plant',
-        description: 'At MKS Industrial Solutions, we offer specialized engineering and turkey solutions for starch and derivative production plants.',
-        image: 'src/assets/Blue Modern A sweet Ending To A New Beginning Wedding Tag (6).png'
+import { ref, onMounted } from 'vue';
+import axiosInstance from '@plugins/axios';
+const baseUrl = 'http://localhost:3001/uploads/';
+const projects = ref([]);
+
+const fetchProjects = async () => {
+    try {
+        const response = await axiosInstance.get('/projects/get-projects');
+        projects.value = response.data;
+    } catch (error) {
+        console.error('Error fetching projects:', error);
     }
-];
+};
+
+onMounted(fetchProjects);
 </script>
 
 <style scoped>
