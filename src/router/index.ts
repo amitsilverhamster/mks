@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router/auto'
+import { fa } from 'vuetify/locale'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
     component: () => import('../pages/frontend/pages/index.vue'),
+    props: { isAdmin: false }
   },
   {
     path: '/admin',

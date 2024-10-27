@@ -61,10 +61,10 @@ const subtitleRules = [
   (v: string) => v.length <= 100 || 'Subtitle must be less than 100 characters',
 ];
 
-
 const background_imagesRules = [
   (v: File[]) => v.length > 0 || 'At least one image is required',
 ];
+
 const previewImages = () => {
   imagePreviews.value = [];
   if (form.value.background_images) {
@@ -80,7 +80,7 @@ const previewImages = () => {
   }
 };
 
-const submitForm = () => {
+const submitForm = async () => {
   try {
     const formData = new FormData();
     formData.append('title', form.value.title);
@@ -88,26 +88,21 @@ const submitForm = () => {
     formData.append('Order_By', form.value.Order_By);
     formData.append('button_text', form.value.button_text);
     formData.append('button_url', form.value.button_url);
-    form.value.background_images.forEach((background_images, index) => {
-      formData.append(`background_images`, background_images);
+    form.value.background_images.forEach((background_image: File) => {
+      formData.append('background_images', background_image);
     });
 
-    axiosInstance.post('/banners', formData, {
+    const response = await axiosInstance.post('/banners', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    }).then(response => {
-      console.log('Form submitted successfully:', response.data);
-      resetForm();
-    }).catch(error => {
-      console.error('Error submitting form:', error);
     });
-
+    console.log('Form submitted successfully:', response.data);
+    resetForm();
   } catch (error) {
     console.error('Error submitting form:', error);
   }
 };
-
 
 const resetForm = () => {
   form.value = {
@@ -119,5 +114,6 @@ const resetForm = () => {
     background_images: [],
   };
   formRef.value.resetValidation();
+  imagePreviews.value = [];
 };
 </script>

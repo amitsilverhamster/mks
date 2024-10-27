@@ -58,6 +58,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       "@plugins": fileURLToPath(new URL('./src/plugins', import.meta.url)),
+      "@assets": fileURLToPath(new URL('./src/assets', import.meta.url)),
+
     },
     extensions: [
       '.js',

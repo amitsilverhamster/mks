@@ -74,7 +74,16 @@ const previewImages = () => {
     });
   }
 };
-
+watch(() => form.value.name, (newVal) => {
+  if (newVal) {
+    form.value.slug = newVal
+      .toLowerCase()          // Convert to lowercase
+      .replace(/\s+/g, '-')    // Replace spaces with hyphens
+      .replace(/[^\w\-]+/g, ''); // Remove invalid characters
+  } else {
+    form.value.slug = ''; // Reset slug if name is empty
+  }
+});
 const submitForm = () => {
   try {
     const formData = new FormData();

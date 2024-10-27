@@ -1,38 +1,63 @@
 <template>
-
-  <header>
-   
-    <v-app-bar app color="white">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>My Website</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn to="/" class="text-dark">Home</v-btn>
-      <v-btn to="/about" class="text-dark">About</v-btn>
-      <v-btn to="/contact" class="text-dark">Contact</v-btn>
-    </v-app-bar>
-
-    <v-navigation-drawer v-model="drawer" app temporary color="white">
-      <v-list>
-        <v-list-item link to="/">
-          <v-list-item-title class="text-dark">Home</v-list-item-title>
-        </v-list-item>
-        <v-list-item link to="/about">
-          <v-list-item-title class="text-dark">About</v-list-item-title>
-        </v-list-item>
-        <v-list-item link to="/contact">
-          <v-list-item-title class="text-dark">Contact</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-  </header>
+  <div class="py-3 top-nav">
+    <nav class="container">
+      <div class="text-end">
+        <PopupForm />
+      </div>
+    </nav>
+  </div>
+  <nav class="navbar navbar-expand-sm main-nav">
+    <div class="container">
+      <a class="navbar-brand" href="#"><img src="../../../assets/MKS 3d Logo 500x500 (1).jpg" alt=""></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-5">
+          <li v-for="(item, index) in navItems" :key="index" class="nav-item px-2">
+            <a class="nav-link active" href="#"><b>{{ item.name }}</b></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import PopupForm from './PopupForm.vue';
+import axiosInstance from '@plugins/axios';
 
-const drawer = ref(false);
+const navItems = ref<string[]>([]);
+
+const fetchMenuItems = async () => {
+  try {
+    const response = await axiosInstance.get('/menus');
+    navItems.value = response.data; // Assuming the API returns an array of menu items
+  } catch (error) {
+    console.error('Error fetching menu items:', error);
+  }
+};
+
+onMounted(() => {
+  fetchMenuItems();
+});
 </script>
 
 <style scoped>
+.top-nav {
+  background-color: #1B326A;
+}
+
+.main-nav {
+  background-color: #FFFFFF;
+}
+
+.main-nav img {
+  width: 100px;
+  height: 100px;
+}
+
 /* Additional styles if needed */
 </style>

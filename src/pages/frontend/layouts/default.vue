@@ -2,7 +2,7 @@
   <div>
     <Header />
     <main>
-      <slot />
+      <router-view></router-view>
     </main>
     <Footer />
   </div>
@@ -14,8 +14,5 @@
 </script>
 
 <style scoped>
-main {
-  padding: 2rem;
-  min-height: 80vh;
-}
+
 </style>

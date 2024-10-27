@@ -102,7 +102,7 @@ const submitForm = () => {
 
 const previewImages = () => {
   imagePreviews.value = [];
-  uploadedImages.value = [];
+  // uploadedImages.value = [];
 
   if (form.value.images) {
     Array.from(form.value.images).forEach((file: File) => {

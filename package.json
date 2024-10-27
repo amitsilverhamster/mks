@@ -8,11 +8,15 @@
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@mdi/font": "7.4.47",
     "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
     "core-js": "^3.37.1",
     "roboto-fontface": "*",
+    "slick-carousel": "^1.8.1",
     "vue": "^3.4.31",
+    "vue-slick-carousel": "^1.0.6",
     "vuetify": "^3.6.11"
   },
   "devDependencies": {

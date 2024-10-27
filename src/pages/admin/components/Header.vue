@@ -3,7 +3,7 @@
   <header>
     <v-app-bar app color="white">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>My Website</v-toolbar-title>
+      <v-toolbar-title>Admin</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn text :to="{name:'AdminHome'}" class="text-dark">Dashboard</v-btn>
       <v-btn text :to="{name:'AdminMenus'}"  class="text-dark">Menus</v-btn>

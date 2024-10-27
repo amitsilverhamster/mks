@@ -9,6 +9,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@plugins/*": ["src/plugins/*"],
+      "@assets/*": ["src/assets/*"],
     },
     "resolveJsonModule": true,
     "types": [

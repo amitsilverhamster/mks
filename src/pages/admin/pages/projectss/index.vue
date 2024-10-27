@@ -53,6 +53,7 @@ const getProject = () => {
             console.log(error);
         });
 }
+
 const editProject = (item) => {
     // Navigate to the edit page with the project ID
     // Assuming you have a route named 'AdminprojectEdit' that takes an 'id' parameter
