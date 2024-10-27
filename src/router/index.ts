@@ -44,6 +44,21 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/admin/pages/product/edit/index.vue'),
   },
   {
+    path: '/admin/industry',
+    name: 'AdminIndustries',
+    component: () => import('../pages/admin/pages/industry/index.vue'),
+  },
+  {
+    path: '/admin/industry/create',
+    name: 'AdminIndustryCreate',
+    component: () => import('../pages/admin/pages/industry/create/index.vue'),
+  },
+  {
+    path: '/admin/industry/edit/:id',
+    name: 'AdminIndustryEdit',
+    component: () => import('../pages/admin/pages/industry/edit/index.vue'),
+  },
+  {
     path: '/admin/projects',
     name: 'Adminprojects',
     component: () => import('../pages/admin/pages/projectss/index.vue'),

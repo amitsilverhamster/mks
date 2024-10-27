@@ -1,29 +1,61 @@
 <template>
-    <v-sheet class="mx-auto" theme="light" color="white">
-        <v-slide-group v-model="model" class="pa-4" selected-class="bg-primary" show-arrows>
-            <v-slide-group-item v-for="n in 15" :key="n" v-slot="{ isSelected, toggle, selectedClass }">
+    <section class="bg-white py-5">
+        <div class="text-center py-5">
+            <h2 class="fs-1">Industries We Serve</h2>
+        </div>
+        <v-container>
+            <v-sheet class="mx-auto" theme="light" color="white">
+                <v-slide-group v-model="model" class="pa-4" selected-class="bg-primary" show-arrows :max="4">
+                    <v-slide-group-item v-for="industry in industries.data" :key="industry.id"
+                        v-slot="{ isSelected, toggle, selectedClass }">
+                        <v-card class="mx-4 rounded-4" color="grey-lighten-1" height="200" width="220">
+                            <v-img :src="baseUrl + industry.default_image" cover :aspect-ratio="1"></v-img>
+                        </v-card>
+                    </v-slide-group-item>
+                </v-slide-group>
 
-                <v-card class="mx-4" color="grey-lighten-1" height="200" width="325">
-                    <v-img src="../../../assets/bakery-ingredients (4).jpg" cover :aspect-ratio="1"></v-img>
-                </v-card>
-            </v-slide-group-item>
-        </v-slide-group>
-
-        <v-expand-transition>
-            <v-sheet v-if="model != null" height="200">
-                <div class="d-flex fill-height align-center justify-center">
-                    <h3 class="text-h6">
-                        Selected {{ model }}
-                    </h3>
-                </div>
+                <v-expand-transition>
+                    <v-sheet v-if="model != null" height="200">
+                        <div class="d-flex fill-height align-center justify-center">
+                            <h3 class="text-h6">
+                                Selected {{ model }}
+                            </h3>
+                        </div>
+                    </v-sheet>
+                </v-expand-transition>
             </v-sheet>
-        </v-expand-transition>
-    </v-sheet>
+        </v-container>
+    </section>
+
 </template>
+
 <script>
+import axiosInstance from '@plugins/axios';
+
 export default {
     data: () => ({
         model: null,
+        industries: [],
+        baseUrl: 'http://localhost:3001/uploads/',
+
     }),
+    created() {
+        this.fetchIndustries();
+    },
+    methods: {
+        async fetchIndustries() {
+            try {
+                const response = await axiosInstance.get('/industries');
+                this.industries = response.data;
+            } catch (error) {
+                console.error('Error fetching industries:', error);
+            }
+        },
+    },
 }
 </script>
+<style scoped>
+h2 {
+    color: #1B326A;
+}
+</style>
