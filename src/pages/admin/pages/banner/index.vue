@@ -4,20 +4,22 @@
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-toolbar-title>Banners</v-toolbar-title>
-                    <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-divider class="mx-2" inset vertical></v-divider>
                     <v-spacer></v-spacer>
-                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" class="me-4" single-line
                         hide-details></v-text-field>
-                    <v-btn color="primary" :to="{ name: 'AdminBannerCreate' }">Create Banner</v-btn>
+                    <v-btn   class="btn border text-light bg-dark px-2 rounded me-4"  :to="{ name: 'AdminBannerCreate' }">Create Banner</v-btn>
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-btn icon @click="editBanner(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn icon @click="deleteProduct(item)">
-                    <v-icon>mdi-delete</v-icon>
-                </v-btn>
+                <div class="d-flex">
+                    <v-btn icon @click="editBanner(item)" class="mx-2">
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="deleteProduct(item)" class="mx-2">
+                        <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                </div>
             </template>
         </v-data-table>
     </v-container>
@@ -29,9 +31,9 @@ import axiosInstance from '@plugins/axios'
 const headers = ref([
     { title: 'Title', value: 'title' },
     { title: 'Subtitle ', value: 'subtitle' },
-    { title: "button_text", value: "button_text" },
-    { title: "button_url", value: "button_url" },
-    { title: ' Order_By', value: 'Order_By' },
+    { title: "Button Text", value: "button_text" },
+    { title: "Button Url", value: "button_url" },
+    { title: ' Order By', value: 'Order_By' },
     { title: 'Actions', value: 'actions', sortable: false },
 ]);
 

@@ -1,19 +1,12 @@
 <template>
-  <v-container>
-    <h1>Edit Project</h1>
+  <v-container class="mb-9">
+    <h1 class="py-2">Edit Project</h1>
     <v-form ref="formRef" @submit.prevent="submitForm">
       <v-text-field v-model="form.name" label="Name" :rules="nameRules" required></v-text-field>
-
       <v-text-field v-model="form.slug" label="Slug" :rules="slugRules" required></v-text-field>
-
-      <v-text-field v-model="form.short_description" label="Sort Description" :rules="sortDescriptionRules"
-        required></v-text-field>
-
-      <v-textarea v-model="form.description" label="Long Description" :rules="longDescriptionRules"
-        required></v-textarea>
-
-      <v-file-input v-model="form.images" label="Images" :rules="imagesRules" multiple required
-        @change="previewImages" @click:clear="previewImages"></v-file-input>
+      <v-text-field v-model="form.short_description" label="Sort Description" :rules="sortDescriptionRules" required></v-text-field>
+      <v-textarea v-model="form.description" label="Long Description" :rules="longDescriptionRules" required></v-textarea>
+      <v-file-input v-model="form.images" label="Images" :rules="imagesRules" multiple required @change="previewImages" @click:clear="previewImages"></v-file-input>
       <v-row class="py-5">
         <v-col v-for="(image, index) in imagePreviews" :key="index" cols="12" sm="6" md="4">
           <v-img :src="image" aspect-ratio="1" class="mb-4"></v-img>
@@ -22,12 +15,37 @@
       <v-btn :to="{ name: 'Adminprojects' }" color="secondry" class="mr-2">Back</v-btn>
       <v-btn type="submit" color="primary">Submit</v-btn>
     </v-form>
+
+    <!-- Success Popup -->
+    <v-dialog v-model="showPopup" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Success</v-card-title>
+        <v-card-text>Form submitted successfully!</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="showPopup = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Error Popup -->
+    <v-dialog v-model="showErrorPopup" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Error</v-card-title>
+        <v-card-text>There was an error submitting the form. Please try again.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" text @click="showErrorPopup = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script lang="ts" setup>
 import axiosInstance from '@plugins/axios';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+
 const formRef = ref(null);
 const form = ref({
   name: '',
@@ -37,6 +55,8 @@ const form = ref({
   images: [],
 });
 const imagePreviews = ref<string[]>([]);
+const showPopup = ref(false);
+const showErrorPopup = ref(false);
 
 const nameRules = [
   (v: string) => !!v || 'Name is required',
@@ -60,6 +80,7 @@ const longDescriptionRules = [
 const imagesRules = [
   (v: File[]) => v.length > 0 || 'At least one image is required',
 ];
+
 const previewImages = () => {
   imagePreviews.value = [];
   if (form.value.images) {
@@ -74,14 +95,15 @@ const previewImages = () => {
     });
   }
 };
+
 watch(() => form.value.name, (newVal) => {
   if (newVal) {
     form.value.slug = newVal
-      .toLowerCase()          // Convert to lowercase
-      .replace(/\s+/g, '-')    // Replace spaces with hyphens
-      .replace(/[^\w\-]+/g, ''); // Remove invalid characters
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '');
   } else {
-    form.value.slug = ''; // Reset slug if name is empty
+    form.value.slug = '';
   }
 });
 
@@ -102,16 +124,18 @@ const submitForm = () => {
       },
     }).then(response => {
       console.log('Form submitted successfully:', response.data);
+      showPopup.value = true;
       resetForm();
     }).catch(error => {
       console.error('Error submitting form:', error);
+      showErrorPopup.value = true;
     });
 
   } catch (error) {
     console.error('Error submitting form:', error);
+    showErrorPopup.value = true;
   }
 };
-
 
 const resetForm = () => {
   form.value = {

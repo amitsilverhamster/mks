@@ -26,6 +26,26 @@
       <v-btn :to="{ name: 'AdminBanners' }" color="secondry" class="mr-2 my-5">Back</v-btn>
       <v-btn type="submit" color="primary my-5">Update</v-btn>
     </v-form>
+    <v-dialog v-model="showPopup" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Success</v-card-title>
+        <v-card-text>Form submitted successfully!</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="showPopup = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="showErrorPopup" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Error</v-card-title>
+        <v-card-text>There was an error submitting the form. Please try again.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" text @click="showErrorPopup = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -37,6 +57,8 @@ const route = useRoute();
 const id = ref(route.params?.id || "");
 const imagePreviews = ref<string[]>([]);
 const uploadedImages = ref<string[]>([]);
+  const showPopup = ref(false);
+  const showErrorPopup = ref(false);
 const form = ref({
   title: '',
   subtitle: '',
@@ -69,10 +91,6 @@ const subtitleRules = [
   (v: string) => v.length <= 100 || 'Subtitle must be less than 100 characters',
 ];
 
-
-const background_imagesRules = [
-  (v: File[]) => v.length > 0 || 'At least one image is required',
-];
 const getImageUrl = (image: string) => {
   const baseUrl = 'http://localhost:3001/uploads/';
   return `${baseUrl}${image}`;
@@ -96,8 +114,10 @@ const submitForm = () => {
       },
     }).then(response => {
       console.log('Form submitted successfully:', response.data);
+      showPopup.value = true;
     }).catch(error => {
       console.error('Error submitting form:', error);
+      showErrorPopup.value = true;
     });
 
   } catch (error) {

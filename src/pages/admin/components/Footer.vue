@@ -1,6 +1,6 @@
 <template>
     <footer>
-      <p>&copy; 2023 Your Company</p>
+      <p>&copy; 2024 Made By Amit</p>
     </footer>
   </template>
   
@@ -17,6 +17,8 @@
     position: relative;
     width: 100%;
     bottom: 0;
+    position: fixed;
+
   }
   </style>
   

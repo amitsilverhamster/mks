@@ -4,20 +4,24 @@
             <template v-slot:top>
                 <v-toolbar flat>
                     <v-toolbar-title>Menus</v-toolbar-title>
-                    <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-divider class="mx-2" inset vertical></v-divider>
                     <v-spacer></v-spacer>
-                    <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                    <v-text-field v-model="search" append-icon="mdi-magnify" class="me-4" label="Search" single-line
                         hide-details></v-text-field>
-                    <v-btn color="primary" :to="{ name: 'AdminMenuCreate' }">Create Menu</v-btn>
+                    <v-btn class="btn border text-light bg-dark px-2 rounded me-4"
+                        :to="{ name: 'AdminMenuCreate' }">Create Menu</v-btn>
                 </v-toolbar>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-btn icon @click="editMenu(item)">
-                    <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-btn icon @click="deleteMenu(item)">
-                    <v-icon>mdi-delete</v-icon>
-                </v-btn>
+                <div class="d-flex">
+                    <v-btn icon @click="editMenu(item)" class="mx-2">
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="deleteMenu(item)" class="mx-2">
+                        <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                </div>
+
             </template>
         </v-data-table>
     </v-container>

@@ -23,6 +23,26 @@
       <v-btn :to="{ name: 'AdminIndustries' }" color="secondary" class="mr-2 my-5">Back</v-btn>
       <v-btn type="submit" color="primary my-5">Update</v-btn>
     </v-form>
+    <v-dialog v-model="showPopup" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Success</v-card-title>
+        <v-card-text>Form submitted successfully!</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="showPopup = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="showErrorPopup" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Error</v-card-title>
+        <v-card-text>There was an error submitting the form. Please try again.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" text @click="showErrorPopup = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -30,7 +50,8 @@
 import axiosInstance from '@plugins/axios';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-
+const showPopup = ref(false);
+const showErrorPopup = ref(false);
 const route = useRoute();
 const id = ref(route.params?.id || "");
 
@@ -47,13 +68,9 @@ const slugRules = [
   (v: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v) || 'Slug must be a valid format',
 ];
 
-const imagesRules = [
-  (v: File[]) => v.length > 0 || 'At least one image is required',
-];
 
-const defaultImageRules = [
-  (v: File) => !!v || 'Default image is required',
-];
+
+
 
 const getImageUrl = (image: string) => {
   const baseUrl = 'http://localhost:3001/uploads/';
@@ -77,8 +94,10 @@ const submitForm = () => {
       },
     }).then(response => {
       console.log('Form updated successfully:', response.data);
+      showPopup.value = true;
     }).catch(error => {
       console.error('Error updating form:', error);
+      showErrorPopup.value = true;
     });
 
   } catch (error) {
