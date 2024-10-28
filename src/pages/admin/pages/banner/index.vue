@@ -55,13 +55,13 @@ const getBanner = () => {
             console.log(error);
         });
 }
-const editBanner = (item) => {
+const editBanner = (item: { id: any; }) => {
     // Navigate to the edit page with the product ID
     // Assuming you have a route named 'AdminBannerEdit' that takes an 'id' parameter
     router.push({ name: 'AdminBannerEdit', params: { id: item.id } });
 };
 
-const deleteProduct = (item) => {
+const deleteProduct = (item: { name: any; id: any; }) => {
     if (confirm(`Are you sure you want to delete ${item.name}?`)) {
         axiosInstance.delete(`banners/${item.id}`)
             .then(() => {

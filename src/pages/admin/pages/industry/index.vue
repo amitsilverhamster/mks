@@ -56,11 +56,11 @@ const getIndustries = () => {
         });
 };
 
-const editIndustry = (item) => {
+const editIndustry = (item: { id: any; }) => {
     router.push({ name: 'AdminIndustryEdit', params: { id: item.id } });
 };
 
-const deleteIndustry = (item) => {
+const deleteIndustry = (item: { id: any; }) => {
     if (confirm(`Are you sure you want to delete this industry?`)) {
         axiosInstance.delete(`industries/${item.id}`)
             .then(() => {

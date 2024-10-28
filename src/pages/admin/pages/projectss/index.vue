@@ -57,13 +57,13 @@ const getProject = () => {
         });
 }
 
-const editProject = (item) => {
+const editProject = (item: { id: any; }) => {
     // Navigate to the edit page with the project ID
     // Assuming you have a route named 'AdminprojectEdit' that takes an 'id' parameter
     router.push({ name: 'AdminprojectEdit', params: { id: item.id } });
 };
 
-const deleteProject = (item) => {
+const deleteProject = (item: { name: any; id: any; }) => {
     if (confirm(`Are you sure you want to delete ${item.name}?`)) {
         axiosInstance.delete(`projects/${item.id}`)
             .then(() => {

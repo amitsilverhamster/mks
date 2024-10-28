@@ -29,12 +29,19 @@ import { ref, onMounted } from 'vue';
 import PopupForm from './PopupForm.vue';
 import axiosInstance from '@plugins/axios';
 
-const navItems = ref<string[]>([]);
+// Define the interface for the navigation items
+interface NavItem {
+  slug: string;
+  name: string;
+}
+
+// Initialize navItems as a ref with the correct type
+const navItems = ref<NavItem[]>([]);
 
 const fetchMenuItems = async () => {
   try {
     const response = await axiosInstance.get('/menus');
-    navItems.value = response.data; // Assuming the API returns an array of menu items
+    navItems.value = response.data; // Assuming the API returns an array of NavItem objects
   } catch (error) {
     console.error('Error fetching menu items:', error);
   }

@@ -56,13 +56,13 @@ const getProduct = () => {
             console.log(error);
         });
 }
-const editProduct = (item) => {
+const editProduct = (item: { id: any; }) => {
     // Navigate to the edit page with the product ID
     // Assuming you have a route named 'AdminProductEdit' that takes an 'id' parameter
     router.push({ name: 'AdminProductEdit', params: { id: item.id } });
 };
 
-const deleteProduct = (item) => {
+const deleteProduct = (item: { name: any; id: any; }) => {
     if (confirm(`Are you sure you want to delete ${item.name}?`)) {
         axiosInstance.delete(`products/${item.id}`)
             .then(() => {

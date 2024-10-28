@@ -57,11 +57,11 @@ const getMenu = () => {
         });
 };
 
-const editMenu = (item) => {
+const editMenu = (item: { id: any; }) => {
     router.push({ name: 'AdminMenuEdit', params: { id: item.id } });
 };
 
-const deleteMenu = (item) => {
+const deleteMenu = (item: { name: any; id: any; }) => {
     if (confirm(`Are you sure you want to delete ${item.name}?`)) {
         axiosInstance.delete(`menus/${item.id}`)
             .then(() => {
