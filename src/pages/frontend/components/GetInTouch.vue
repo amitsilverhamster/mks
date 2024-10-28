@@ -6,11 +6,11 @@
                     <div class=" text-start py-5">
                         <div class="row py-2">
 
-                            <div class="col-3">
+                            <div class="col-4 col-md-3 col-lg-3">
                                 <h4 class="">Get In Touch</h4>
 
                             </div>
-                            <div class="col-7  align-self-center">
+                            <div class="col-8 col-md-7 col-lg-8  align-self-center">
                                 <hr class="white-line">
 
                             </div>
@@ -34,20 +34,20 @@
                     <div class=" text-start py-5">
                         <div class="row py-2">
 
-                            <div class="col-2">
+                            <div class="col-3 col-md-3 col-lg-3">
                                 <h4 class="">Find Us</h4>
 
                             </div>
-                            <div class="col-7 align-self-center">
+                            <div class="col-9 col-md-7 col-lg-8 align-self-center">
                                 <hr class="white-line">
 
                             </div>
 
                         </div>
                         <div class="map-container px-2 embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive"
+                            <iframe class="embed-responsive map"
                                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d66064.20320075586!2d76.994778!3d29.256479000000002!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390dc5ae6031269d%3A0xc93a6399f41e1b3e!2sMKS%20INDUSTRIAL%20SOLUTIONS!5e1!3m2!1sen!2sin!4v1730015803147!5m2!1sen!2sin"
-                                width="600" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+                                 style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         </div>
@@ -55,11 +55,11 @@
                     <div class=" text-start py-5">
                         <div class="row py-2">
 
-                            <div class="col-3">
+                            <div class="col-3 col-md-3 col-lg-3">
                                 <h4 class="">Follow Us</h4>
 
                             </div>
-                            <div class="col-7  align-self-center">
+                            <div class="col-9 col-md-7 col-lg-7 align-self-center">
                                 <hr class="white-line">
 
                             </div>
@@ -114,6 +114,28 @@ h2 {
 .from-btn-color {
     background-color: #045DA1;
     color: #fff;
+}
+.map {
+    width: 460px ;
+    height: 200px ;
+}
+@media (max-width: 600px) {
+    .map {
+        width: 460px;
+        height: 150px;
+    }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+    .map {
+        width: 300px;
+        height: 200px;
+    }
+}
+@media (min-width: 1024px) {
+    .map {
+        width: 600px !important;
+        height: 200px !important;
+    }
 }
 
 .map-container {

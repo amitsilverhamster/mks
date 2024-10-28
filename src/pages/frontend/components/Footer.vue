@@ -3,7 +3,7 @@
     <section class="py-5">
       <div class="container">
         <div class="row">
-          <div v-for="section in footerSections" :key="section.title" class="col-6 col-md-2 col-lg-2">
+          <div v-for="section in footerSections" :key="section.title" :class="['col-4 col-md-6 col-lg-3', { 'col-7 col-md-6' : section.contacts,'col-5': section.title === 'Products' },]">
             <h4 class="pb-2 text-start">{{ section.title }}</h4>
             <ul v-if="section.items" class="text-dark list-unstyled text-start">
               <li v-for="item in section.items" :key="item" class="py-1">
@@ -19,7 +19,7 @@
                 <span>{{ contact.text }}</span>
               </li>
             </ul>
-            <div v-if="section.socialMedia" class="social-media-icons">
+            <div v-if="section.socialMedia" class="social-media-icons text-center">
               <a v-for="social in section.socialMedia" :key="social.platform" :href="social.link"
                 class="px-3 my-2 rounded" target="_blank" rel="noopener noreferrer">
                 <i :class="social.icon"></i>
@@ -85,12 +85,12 @@ onMounted(() => {
 });
 
 const footerSections = computed(() => [
-  {
-    title: 'About US',
-    items: [
-      'We are an EPC-based organization that provides engineering services from feasibility studies to designing the world\'s most advanced industrial engineering'
-    ]
-  },
+  // {
+  //   title: 'About US',
+  //   items: [
+  //     'We are an EPC-based organization that provides engineering services from feasibility studies to designing the world\'s most advanced industrial engineering'
+  //   ]
+  // },
   {
     title: 'Quick Links',
     items: navItems.value

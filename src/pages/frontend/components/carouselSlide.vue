@@ -6,7 +6,7 @@
             </div>
             <div class="carousel-inner">
                 <div v-for="(item, index) in sortedCarouselItems" :key="index" :class="['carousel-item', { active: index === 0 }]">
-                    <img :src="item.image" class="d-block w-100" alt="...">
+                    <img :src="item.image" class="d-block w-100 banner_img"  alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <transition name="fade">
                             <h3 class="fw-bolder">{{ item.title }}</h3>
@@ -102,5 +102,10 @@ const sortedCarouselItems = computed(() => {
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
     opacity: 0;
     transform: translateY(20px);
+}
+
+.banner_img {
+    height: 520px;
+    object-fit: cover;
 }
 </style>
