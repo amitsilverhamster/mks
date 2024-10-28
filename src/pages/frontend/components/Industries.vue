@@ -6,7 +6,7 @@
         <v-container>
             <v-sheet class="mx-auto" theme="light" color="white">
                 <v-slide-group v-model="model" class="pa-4" selected-class="bg-primary" show-arrows :max="4">
-                    <v-slide-group-item v-for="industry in industries.data" :key="industry.id"
+                    <v-slide-group-item v-for="(industry, index) in repeatedIndustries" :key="index"
                         v-slot="{ isSelected, toggle, selectedClass }">
                         <v-card class="mx-4 rounded-4" color="grey-lighten-1" height="200" width="220">
                             <v-img :src="baseUrl + industry.default_image" cover :aspect-ratio="1"></v-img>
@@ -26,7 +26,6 @@
             </v-sheet>
         </v-container>
     </section>
-
 </template>
 
 <script>
@@ -37,7 +36,7 @@ export default {
         model: null,
         industries: [],
         baseUrl: 'http://localhost:3001/uploads/',
-
+        repeatCount: 110, // Number of times to repeat the industries
     }),
     created() {
         this.fetchIndustries();
@@ -52,8 +51,18 @@ export default {
             }
         },
     },
+    computed: {
+        repeatedIndustries() {
+            // Repeat the industries array based on repeatCount
+            if (this.industries.data && this.industries.data.length > 0) {
+                return Array.from({ length: this.repeatCount }, () => this.industries.data).flat();
+            }
+            return [];
+        },
+    },
 }
 </script>
+
 <style scoped>
 h2 {
     color: #1B326A;

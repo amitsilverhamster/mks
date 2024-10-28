@@ -16,7 +16,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-5">
           <li v-for="(item, index) in navItems" :key="index" class="nav-item px-2">
-            <a class="nav-link active" href="#"><b>{{ item.name }}</b></a>
+            <a class="nav-link active" :href="`${item.slug}`"><b>{{ item.name }}</b></a>
           </li>
         </ul>
       </div>
